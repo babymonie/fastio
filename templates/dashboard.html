@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FASTIO - Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
+    <style>
+      /* Adjust font size for the sidebar links */
+      .nav-link {
+        font-size: 3em;
+      }
+      ::file-selector-button {
+        display: none;
+      }
+      ::-webkit-file-upload-button {
+        display: none;
+      }
+
+      #upload-button {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!--login page-->
+    <div class="container" id="login">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <h1 class="text-center">FASTIO</h1>
+          <div class="card">
+            <div class="card-header">Login</div>
+            <div class="card-body">
+              <!--don't let form submit-->
+              <form id="login-form">
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                  />
+                </div>
+                <button type="submit" id="login" class="btn btn-primary">
+                  Login
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" id="dashboard">
+      <div class="row">
+        <nav
+          id="sidebar"
+          class="col-md-3 col-lg-2 d-md-block bg-light sidebar"
+          style="height: 100vh"
+        >
+          <div class="position-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" onclick="showContent('home-content')">
+                  <i class="bi bi-house-door"></i> Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="showContent('objects-content')">
+                  <i class="bi bi-box"></i> Objects
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="showContent('stats-content')">
+                  <i class="bi bi-bar-chart"></i> Stats
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="showContent('settings-content')">
+                  <i class="bi bi-gear"></i> Settings
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <div id="home-content" class="my-3">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+              <div class="container-fluid">
+                <a class="navbar-brand">Home</a>
+              </div>
+            </nav>
+
+            <h2>Welcome to FastIO</h2>
+            <p>
+              On your left-hand side, you will see a sidebar with different
+              options. The "Home" section contains information about the build
+              version and other details.
+              <br />
+              Notes: File uploads with file splitting enabled will have file
+              progress enabled.
+            </p>
+
+            <!-- Build Information Card -->
+            <div class="card mt-3">
+              <div class="card-header">Build Information</div>
+              <div class="card-body">
+                <h5 class="card-title">Version: 1.0.0</h5>
+                <p class="card-text">Release Date: February 6, 2024</p>
+                <p class="card-text">Author: Aloysius Faustin</p>
+              </div>
+            </div>
+            <!--video element with input that on change makes the video element url the same as the input url-->
+            <div class="card mt-3">
+              <div class="card-header">Video</div>
+              <div class="card-body">
+                <input
+                  type="text"
+                  id="video-url"
+                  class="form-control"
+                  placeholder="Enter video URL"
+                  onchange="document.getElementById('video').src = this.value"
+                />
+
+                <video
+                  id="video"
+                  class="mt-3"
+                  width="320"
+                  height="240"
+                  controls
+                ></video>
+              </div>
+              </div>
+
+          </div>
+          <div id="objects-content" class="my-3 d-none">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+              <div class="container-fluid">
+                <a class="navbar-brand">Objects</a>
+                <div class="row">
+                  <div class="col">
+                    <div
+                      class="progress"
+                      style="height: 40px; width: 50vw"
+                      role="progressbar progress-bar bg-success progress-bar-striped"
+                      aria-label="Basic example"
+                      aria-valuenow="25"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    >
+                      <div class="progress-bar">
+                       
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <input type="file" class="form-control" id="upload-button" />
+                <div class="input-group-append">
+                  <label for="upload-button" class="btn btn-primary"
+                    >Upload File</label
+                  >
+                  <button class="btn btn-primary" onclick="urlUpload()">Upload via URL</button>
+                </div>
+      
+              </div>
+            </nav>
+
+            <!-- Table with pagination -->
+
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Size</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+
+            <nav aria-label="Page navigation">
+              <ul class="pagination justify-content-center mt-3">
+                <li class="page-item">
+                  <a class="page-link" aria-label="Previous" id="page-1">
+                    Previous
+                  </a>
+                </li>
+
+                <a class="page-link" id="page">1</a>
+
+                <li class="page-item">
+                  <a class="page-link" aria-label="Next" id="page-2"> Next </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div id="settings-content" class="my-3 d-none">
+            <div id="settings-content" class="my-3">
+              <h2>Settings Content</h2>
+
+              <p>
+                Warning: this requires a restart of the server to take effect.
+              </p>
+
+              <h3>Drive Settings</h3>
+              <!-- Current Drives -->
+              <div class="mb-3">
+                <label for="current-drives">Current Drives</label>
+                <div id="current-drives" class="input-group">
+                  {% for drive in driveletters %}
+                  <span class="input-group-text">{{ drive }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <!-- Add Additional Drives -->
+              <div class="mb-3">
+                <label for="additional-drives">Add Additional Drives</label>
+                <select
+                  id="additional-drives"
+                  name="additional-drives"
+                  class="form-control"
+                >
+                  <option value="">Select a drive</option>
+                  {% for drive in available_drives %}
+                  <option value="{{ drive }}">{{ drive }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <button
+                id="remove-drive-btn"
+                type="button"
+                class="btn btn-primary"
+              >
+                Remove Last Drive
+              </button>
+
+              <div class="form-check mb-3">
+                <input
+                  type="checkbox"
+                  id="file-splitting"
+                  name="file-splitting"
+                  class="form-check-input"
+                />
+                <label for="file-splitting" class="form-check-label"
+                  >Enable file splitting across drives</label
+                >
+              </div>
+
+              <div class="mb-3">
+                <label for="items-per-page">Items per page</label>
+                <input
+                  type="number"
+                  id="items-per-page"
+                  name="items-per-page"
+                  class="form-control"
+                  value="{{ items_per_page }}"
+                />
+              </div>
+              <button type="button" id="save-settings" class="btn btn-primary">
+                Save Settings
+              </button>
+            </div>
+          </div>
+          <div id="stats-content" class="my-3 d-none">
+            <h2>Stats Content</h2>
+            <p>This is the content for the Stats section.</p>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="{{url_for('static', filename='jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename='socketio.min.js')}}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script>
+	 const player = new Plyr('#video');
+            const socket = io("/");
+            var sha256 = function sha256(ascii) {
+          function rightRotate(value, amount) {
+              return (value>>>amount) | (value<<(32 - amount));
+          };
+
+          var mathPow = Math.pow;
+          var maxWord = mathPow(2, 32);
+          var lengthProperty = 'length'
+          var i, j; // Used as a counter across the whole file
+          var result = ''
+
+          var words = [];
+          var asciiBitLength = ascii[lengthProperty]*8;
+
+          //* caching results is optional - remove/add slash from front of this line to toggle
+          // Initial hash value: first 32 bits of the fractional parts of the square roots of the first 8 primes
+          // (we actually calculate the first 64, but extra values are just ignored)
+          var hash = sha256.h = sha256.h || [];
+          // Round constants: first 32 bits of the fractional parts of the cube roots of the first 64 primes
+          var k = sha256.k = sha256.k || [];
+          var primeCounter = k[lengthProperty];
+          /*/
+          var hash = [], k = [];
+          var primeCounter = 0;
+          //*/
+
+          var isComposite = {};
+          for (var candidate = 2; primeCounter < 64; candidate++) {
+              if (!isComposite[candidate]) {
+                  for (i = 0; i < 313; i += candidate) {
+                      isComposite[i] = candidate;
+                  }
+                  hash[primeCounter] = (mathPow(candidate, .5)*maxWord)|0;
+                  k[primeCounter++] = (mathPow(candidate, 1/3)*maxWord)|0;
+              }
+          }
+
+          ascii += '\x80' // Append Ƈ' bit (plus zero padding)
+          while (ascii[lengthProperty]%64 - 56) ascii += '\x00' // More zero padding
+          for (i = 0; i < ascii[lengthProperty]; i++) {
+              j = ascii.charCodeAt(i);
+              if (j>>8) return; // ASCII check: only accept characters in range 0-255
+              words[i>>2] |= j << ((3 - i)%4)*8;
+          }
+          words[words[lengthProperty]] = ((asciiBitLength/maxWord)|0);
+          words[words[lengthProperty]] = (asciiBitLength)
+
+          // process each chunk
+          for (j = 0; j < words[lengthProperty];) {
+              var w = words.slice(j, j += 16); // The message is expanded into 64 words as part of the iteration
+              var oldHash = hash;
+              // This is now the undefinedworking hash", often labelled as variables a...g
+              // (we have to truncate as well, otherwise extra entries at the end accumulate
+              hash = hash.slice(0, 8);
+
+              for (i = 0; i < 64; i++) {
+                  var i2 = i + j;
+                  // Expand the message into 64 words
+                  // Used below if
+                  var w15 = w[i - 15], w2 = w[i - 2];
+
+                  // Iterate
+                  var a = hash[0], e = hash[4];
+                  var temp1 = hash[7]
+                      + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) // S1
+                      + ((e&hash[5])^((~e)&hash[6])) // ch
+                      + k[i]
+                      // Expand the message schedule if needed
+                      + (w[i] = (i < 16) ? w[i] : (
+                              w[i - 16]
+                              + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15>>>3)) // s0
+                              + w[i - 7]
+                              + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2>>>10)) // s1
+                          )|0
+                      );
+                  // This is only used once, so *could* be moved below, but it only saves 4 bytes and makes things unreadble
+                  var temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) // S0
+                      + ((a&hash[1])^(a&hash[2])^(hash[1]&hash[2])); // maj
+
+                  hash = [(temp1 + temp2)|0].concat(hash); // We don't bother trimming off the extra ones, they're harmless as long as we're truncating when we do the slice()
+                  hash[4] = (hash[4] + temp1)|0;
+              }
+
+              for (i = 0; i < 8; i++) {
+                  hash[i] = (hash[i] + oldHash[i])|0;
+              }
+          }
+
+          for (i = 0; i < 8; i++) {
+              for (j = 3; j + 1; j--) {
+                  var b = (hash[i]>>(j*8))&255;
+                  result += ((b < 16) ? 0 : '') + b.toString(16);
+              }
+          }
+          return result;
+      };
+            let page = 1;
+            let split = {{ split_files }};
+            let drives = [{% for drive in driveletters %} "{{ drive }}", {% endfor %}];
+            var url = window.location.href;
+
+
+            $("#dashboard").hide();
+            $(".progress").hide();
+
+
+            let itemsperPage = "{{ items_per_page }}";
+            function loadObjectsUntilFull() {
+              // Check if the table is full
+              if (
+                document.querySelector("tbody").children.length >=
+                parseInt(itemsperPage)
+              ) {
+                page++;
+                loadObjects(page);
+                // Check again after a short delay
+                setTimeout(() => {
+                  loadObjectsUntilFull(page);
+                }, 1000); // Adjust the delay as needed
+              }
+              else{
+                loadObjects(page);
+              }
+
+            }
+
+            function urlUpload() {
+              var formData = new FormData();
+              if (split) {
+                  $(".progress").show();
+                }
+                let downloadUrl= prompt("Enter the url of the file you want to upload.");
+                let key = prompt("If you want a key for the file, please enter it here. If not, leave it blank.");
+              
+                let hidden = confirm("Do you want to hide the file from the objects list?");
+                if (hidden) {
+                  formData.append("hidden", "true");
+                }
+                else{
+                  formData.append("hidden", "false");
+                }
+              
+                let fetchUrl = "/uploadU";
+         
+                if (downloadUrl) {
+                  fetchUrl = "/uploadU?url=" + downloadUrl;
+                } else {
+                  alert("Please enter a valid URL");
+                  return;
+                }
+                
+                if (key) {
+                  formData.append("key", key);
+                }
+                else
+                {
+                  formData.append("key", key);
+                }
+                $.ajax({
+                  url: fetchUrl,
+                  type: "POST",
+                  data: formData,
+                  contentType: false,
+                  processData: false,
+                  success: function (response) {
+                    loadObjectsUntilFull();
+                  },
+                  error: function (error) {
+                    alert("Could not upload file");
+                  },
+                });
+                socket.on('progress', function(data) {
+                   
+                      progress = data.progress * 100;
+                      if (progress < 100) {
+                        $('.progress-bar').css('width', progress.toFixed(2) + '%').attr('aria-valuenow', progress.toFixed(2));
+
+                        $('.progress-bar').html(progress.toFixed(2) + '%');
+
+                      }
+                      if (progress === 100) {
+
+
+                          $(".progress").hide();
+
+                      }
+                });
+
+            }
+
+            document
+              .getElementById("upload-button")
+              .addEventListener("change", async function (e) {
+                var formData = new FormData();
+                formData.append("file", $("#upload-button")[0].files[0]);
+                if (split) {
+                  $(".progress").show();
+                }
+                let key = prompt("If you want a key for the file, please enter it here. If not, leave it blank.");
+                let hidden = confirm("Do you want to hide the file from the objects list?");
+                if (hidden) {
+                  formData.append("hidden", "true");
+                }
+                else{
+                  formData.append("hidden", "false");
+                }
+
+                let fetchUrl = "/upload";
+            
+                if (key) {
+                  formData.append("key", key);
+                }
+                else
+                {
+                  formData.append("key", key);
+                }
+
+
+                
+
+
+     
+                $.ajax({
+
+                  url: fetchUrl,
+                  type: "POST",
+                  data: formData,
+                  contentType: false,
+                  processData: false,
+                  success: function (response) {
+                    loadObjectsUntilFull();
+                  },
+                  error: function (error) {
+                    alert("Could not upload file");
+                  },
+                });
+                socket.on('progress', function(data) {
+                
+                      progress = data.progress * 100;
+                      if (progress < 100) {
+                        $('.progress-bar').css('width', progress.toFixed(2) + '%').attr('aria-valuenow', progress.toFixed(2));
+
+                        $('.progress-bar').html(progress.toFixed(2) + '%');
+
+                      }
+                 
+                      if (progress === 100) {
+
+
+                            $(".progress").hide();
+                      }
+                      
+                      
+                });
+              });
+
+
+
+     
+
+            if (sessionStorage.getItem("username") && sessionStorage.getItem("password")) {
+              if("{{username}}" === sessionStorage.getItem("username") && "{{password}}" === sha256(sessionStorage.getItem("password"))) {
+
+              $("#login").hide();
+              $("#dashboard").show();
+              var hash = url.split("?page=")[1];
+              if (hash) {
+                hash = hash.toLowerCase();
+                showContent(hash + "-content");
+                document.title =
+                  "FASTIO - " + hash.charAt(0).toUpperCase() + hash.slice(1);
+                if (hash === "objects") {
+                  loadObjects(page);
+                }
+              } else {
+                showContent("home-content");
+                document.title = "FASTIO - Home";
+                loadObjects(page);
+              }
+              }
+              else{
+                $("#dashboard").hide();
+                $("#login").show();
+
+              }
+            }
+
+
+
+            document.getElementById("login").addEventListener("submit", function (e) {
+              e.preventDefault();
+              var username = document.getElementById("username").value;
+              var password = document.getElementById("password").value;
+              if (username && password) {
+                if("{{username}}" === username && "{{password}}" === sha256(password)) {
+                  $("#login").hide();
+                  $("#dashboard").show();
+                  var hash = url.split("?page=")[1];
+                  if (hash) {
+                    hash = hash.toLowerCase();
+                    showContent(hash + "-content");
+                    document.title =
+                      "FASTIO - " + hash.charAt(0).toUpperCase() + hash.slice(1);
+                    loadObjects(page);
+                    
+
+                    sessionStorage.setItem("username", username);
+                    sessionStorage.setItem("password", password);
+
+                  } else {
+                    showContent("home-content");
+                    document.title = "FASTIO - Home";
+                    loadObjects(page);
+                  }
+                } else {
+                  alert("Invalid username or password");
+
+
+                }
+              }
+            });
+
+
+            document.getElementById("page-1").addEventListener("click", function () {
+              if (page > 1) {
+                page--;
+                loadObjects(page);
+              }
+            });
+
+            document.getElementById("page-2").addEventListener("click", function () {
+              page++;
+              loadObjects(page);
+            });
+
+            document.getElementById("remove-drive-btn").addEventListener("click", function () {
+              drives.pop();
+              document.getElementById("current-drives").innerHTML = "";
+              for (var i = 0; i < drives.length; i++) {
+                document.getElementById("current-drives").innerHTML +=
+                  "<span class='input-group-text'>" + drives[i] + "</span>";
+              }
+            });
+
+
+
+              if (split === true) {
+                document.getElementById("file-splitting").checked = true;
+              }
+              document.getElementById("file-splitting").addEventListener("change", function () {
+
+                  split = !split;
+
+              });
+
+              document.getElementById("additional-drives").addEventListener("change", function () {
+                  var drive = document.getElementById("additional-drives").value;
+                  if (drive) {
+                      drives.push(drive);
+                      document.getElementById("current-drives").innerHTML = "";
+                      for (var i = 0; i < drives.length; i++) {
+                      document.getElementById("current-drives").innerHTML +=
+                          "<span class='input-group-text'>" + drives[i] + "</span>";
+                      }
+                  }
+
+
+              });
+
+              document.getElementById("save-settings").addEventListener("click", function () {
+                  $.ajax({
+                      url: "/update",
+                      type: "PUT",
+                      data: JSON.stringify({ "split_files": split, "drives": drives, "items_per_page": document.getElementById("items-per-page").value }),
+                      contentType: "application/json",
+                      success: function (response) {
+                          alert("Settings saved successfully");
+                      },
+                      error: function (error) {
+                          alert("Could not save settings");
+                      },
+                  });
+              });
+
+
+
+            function showContent(contentId) {
+              // Hide all content
+              document.getElementById("home-content").classList.add("d-none");
+              document.getElementById("objects-content").classList.add("d-none");
+              document.getElementById("settings-content").classList.add("d-none");
+              document.getElementById("stats-content").classList.add("d-none");
+
+              if (contentId === "objects") {
+                loadObjects(page);
+              }
+              // Show the selected content
+              document.getElementById(contentId).classList.remove("d-none");
+
+              if (contentId === "home-content") {
+                document.title = "FASTIO - Home";
+              } else {
+                document.title =
+                  "FASTIO - " + contentId.charAt(0).toUpperCase() + contentId.slice(1);
+              }
+
+
+
+              window.history.pushState(
+                "",
+                "",
+                window.location.href.split("?")[0] + "?page=" + contentId.split("-")[0]
+              );
+
+            }
+            function deleteFile(id) {
+              $.ajax({
+                url: "/delete/" + id,
+                type: "DELETE",
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                  loadObjects(page);
+                },
+                error: function (error) {
+                  alert("Could not delete file");
+                },
+              });
+            }
+
+
+
+            function loadObjects(page) {
+              $.ajax({
+                url: "/list/" + page,
+                type: "GET",
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                  var data = response;
+
+                  var tbody = document.querySelector("tbody");
+                  tbody.innerHTML = "";
+                  for (var i = 0; i < data.length; i++) {
+                    var tr = "<tr>";
+                    tr += "<td>" + data[i].id + "</td>";
+                    tr += "<td>" + data[i].name + "</td>";
+                    tr += "<td>" + data[i].type + "</td>";
+                    tr += "<td>" + data[i].size + "MB</td>";
+                    tr += `<td><a onclick="window.open('/view/${data[i].id}', '_blank').focus();"class='btn btn-primary'>View File(not download)</a><button onclick='deleteFile("${data[i].id}")' class='btn btn-danger'>Delete</button></td>`;
+                    tr += "</tr>";
+                    tbody.innerHTML += tr;
+                  }
+                  document.getElementById("page").innerHTML = page;
+                },
+                error: function (error) {},
+              });
+            }
+    </script>
+  </body>
+</html>
